@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>LyriCloud</title>
+
+<link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="./dist/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="./dist/css/theme.css" rel="stylesheet">
+<script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="./js/ajax.js"></script>
+</head>
+
+<body>  
+  <header>
+    <div id="header">LyriCloud</div>
+  </header> 
+  <div id="cloudPane">
+    <img src="./img/word_cloud.jpg">
+  </div>
+  <script type="text/javascript"> $('#cloudPane').hide(); </script>
+  <div id ="outerInputPane" style ="width: 100%">
+    <div id ="inputPane">
+      <input id="inputBox" type="text" name="text" placeholder="Input Text Here">
+      <div id="buttons">
+        <button id="submitButton" class="btn btn-default">Search</button>
+        <button id="shareToFacebookButton" class="btn btn-default" disabled="disabled">Share to Facebook</button>
+        <button id="addMoreButton" class="btn btn-default" disabled="disabled">Add More To Cloud</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
