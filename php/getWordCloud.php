@@ -17,7 +17,6 @@
 <div id="cloudResult">
 <?php 
 	echo $cloud;
-	//echo "<div class=\"hiddenText\" id=\"prevText\">$text</div>";
 ?>
 </div>
 
