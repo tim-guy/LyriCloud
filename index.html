@@ -52,40 +52,59 @@
     </div>
   </div>
 </body>
+</html>
 
 <script>
-        $("#cloudPane").click(function(){
-          $.ajax({
-            type: "post",
-            url: "getWordCloud.php",
-            data: {
-              prev: $('#prevText').text(),
-              name: $('#inputBox').val()
-            },
-            success: function(msg){
-              $('#cloudBox').html(msg);
-            }
-          });
-        });
-
-        $('#submitButton').on('click', function(e){
-          $.ajax({
-            beforeSend: function() {
-              $('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
-            },
-            url: "getWordCloud.php",
-            type: 'post',
-            data: {
-                prev: '',
-                name: $('#inputBox').val()
-            },
-            success: function(msg){ 
-              $('#shareToFacebookButton').attr("disabled", false);
-              $('#addMoreButton').attr("disabled", false);
-              $('#cloudBox').html(msg);
-            }
-          });
-        });
+  $("#submitButton").click(function(){
+    $.ajax({
+        beforeSend: function() {
+          $('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
+        },
+        type: "post",
+        url: "getWordCloud.php",
+        data: {
+          prev: '',
+          name: $('#inputBox').val()
+        },
+        success: function(msg){
+          $('#cloudBox').html(msg);
+          $('#addMoreButton').css("visibility", "visible");
+          $('#shareButton img').css("visibility", "visible");
+        }
+    });
+  });
+  
+  // $("#addMoreButton").click(function(){
+  //   $.ajax({
+  //       beforeSend: function() {
+  //         $('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
+  //       },
+  //       type: "post",
+  //       url: "getWordCloud.php",
+  //       data: {
+  //         prev: $('#prevText').text(),
+  //         name: $('#inputBox').val()
+  //       },
+  //       success: function(msg){
+  //         $('#cloudBox').html(msg);
+  //       }
+  //   });
+  // });
 </script>
 
-</html>
+<!-- //
+//         // $("#cloudPane").click(function(){
+//         //   $.ajax({
+//         //     type: "post",
+//         //     url: "getWordCloud.php",
+//         //     data: {
+//         //       prev: $('#prevText').text(),
+//         //       name: $('#inputBox').val()
+//         //     },
+//         //     success: function(msg){
+//         //       $('#cloudBox').html(msg);
+//         //     }
+//         //   });
+//         // });
+
+

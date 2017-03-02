@@ -1,4 +1,5 @@
 <?php
+require 'phpconsole.php';
 include 'WordCloud.php';
 $artist = $_GET['artist'];
 $track_id =  $_GET['track_id'];

@@ -1,10 +1,14 @@
 <?php
-
 	include 'WordCloud.php';
-	$artist = $_GET['artist'];
-	$provider = new WordCloud;
-	$cloud = $provider->getWordCloud($artist);
-	
+
+	if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' && $_POST['name'] != '') {
+		$artist = $_POST['name'];
+		$provider = new WordCloud;
+		$cloud = $provider->WordCloudGenerator($artist);
+	}
+	else{
+		$cloud = null;
+	}
 ?>
 
 <html>
@@ -13,7 +17,7 @@
 <div id="cloudResult">
 <?php 
 	echo $cloud;
-	echo "<div class=\"hiddenText\" id=\"prevText\">$text</div>";
+	//echo "<div class=\"hiddenText\" id=\"prevText\">$text</div>";
 ?>
 </div>
 

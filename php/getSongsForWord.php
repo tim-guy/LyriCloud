@@ -1,4 +1,5 @@
 <?php
+require 'phpconsole.php';
 	include 'WordCloud.php';
 	$artist = $_GET['artist'];
 	$word = $_GET['word']
@@ -16,7 +17,6 @@
 </header>
 <body>
 	<?php 
-		// $formattedArtistName = str_replace(" ","%20",$theArtist);
 	    $formattedWord = $toSearch;
 		for($x = 0; $x<count($songs); $x++){
 	        $track_id = $songs[$x];
