@@ -16,9 +16,8 @@
     <div id="header">LyriCloud</div>
   </header> 
   <div id="cloudPane">
-    <img src="./img/word_cloud.jpg">
+    <div id="cloudBox"></div>
   </div>
-  <script type="text/javascript"> $('#cloudPane').hide(); </script>
   <div id ="outerInputPane" style ="width: 100%">
     <div id ="inputPane">
       <input id="inputBox" type="text" name="text" placeholder="Input Text Here">
@@ -32,7 +31,7 @@
             {
               method: 'feed',
               name: 'LyriCloud',
-              link: 'https://github.com/timmymalaney24/LyriCloud',
+              link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
               picture: 'http://www.internal-communication.com/wp-content/uploads/2012/01/word-cloud-internal-comms.png',
               caption: 'Your custom artist lyric cloud',
               description: 'Artist Name Goes here'
@@ -53,4 +52,40 @@
     </div>
   </div>
 </body>
+
+<script>
+        $("#cloudPane").click(function(){
+          $.ajax({
+            type: "post",
+            url: "getCloud.php",
+            data: {
+              prev: $('#prevText').text(),
+              name: $('#inputBox').val()
+            },
+            success: function(msg){
+              $('#cloudBox').html(msg);
+            }
+          });
+        });
+
+        $('#submitButton').on('click', function(e){
+          $.ajax({
+            beforeSend: function() {
+              $('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
+            },
+            url: "getCloud.php",
+            type: 'post',
+            data: {
+                prev: '',
+                name: $('#inputBox').val()
+            },
+            success: function(msg){ 
+              $('#shareToFacebookButton').attr("disabled", false);
+              $('#addMoreButton').attr("disabled", false);
+              $('#cloudBox').html(msg);
+            }
+          });
+        });
+</script>
+
 </html>
