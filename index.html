@@ -8,6 +8,7 @@
 <link href="./dist/css/theme.css" rel="stylesheet">
 <script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="./js/ajax.js"></script>
+<script type="text/javascript" src="./js/fb-ui-share.js"></script>
 </head>
 
 <body>  
@@ -24,6 +25,29 @@
       <div id="buttons">
         <button id="submitButton" class="btn btn-default">Search</button>
         <button id="shareToFacebookButton" class="btn btn-default" disabled="disabled">Share to Facebook</button>
+
+        <script>
+        document.getElementById('shareToFacebookButton').onclick = function() {
+          FB.ui(
+            {
+              method: 'feed',
+              name: 'LyriCloud',
+              link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+              picture: 'http://www.internal-communication.com/wp-content/uploads/2012/01/word-cloud-internal-comms.png',
+              caption: 'Your custom artist lyric cloud',
+              description: 'Artist Name Goes here'
+            },
+            function(response) {
+              if (response && response.post_id) {
+                alert('Post was published.');
+              } else {
+                alert('Post was not published.');
+              }
+            }
+          );
+        }
+        </script>
+
         <button id="addMoreButton" class="btn btn-default" disabled="disabled">Add More To Cloud</button>
       </div>
     </div>
