@@ -57,7 +57,7 @@
         $("#cloudPane").click(function(){
           $.ajax({
             type: "post",
-            url: "getCloud.php",
+            url: "getWordCloud.php",
             data: {
               prev: $('#prevText').text(),
               name: $('#inputBox').val()
@@ -73,7 +73,7 @@
             beforeSend: function() {
               $('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
             },
-            url: "getCloud.php",
+            url: "getWordCloud.php",
             type: 'post',
             data: {
                 prev: '',
