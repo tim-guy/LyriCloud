@@ -23,7 +23,7 @@ $lyrics = preg_replace("/\w*?".preg_quote($word)."\w*/i", "<span class='highligh
 		<?php echo $lyrics ?>
 	</div>
 	<div id="buttons">
-		<?php echo "<a href=\"php/getSongsForWord.php?artist={$artist}&word={$word}\"><button id=\"songSelection\">Song Selection</button></a>" ?> 
+		<?php echo "<a href=\"getSongsForWord.php?artist={$artist}&word={$word}\"><button id=\"songSelection\">Song Selection</button></a>" ?> 
 		<a href="index.html"><button id="home">Word Cloud</button></a>
 	</div>
 </body>

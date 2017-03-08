@@ -57,9 +57,8 @@ class WordCloud
             }
             
             if ($font_size >= $fmin) {
-                $cloud .= "<a href=\"php/getSongsForWord.php?artist={$name}&word={$word}\" style=\"font-size: {$font_size}px; color: $color;\">$word</a> ";
+                $cloud .= "<a href=\"getSongsForWord.php?artist={$name}&word={$word}\" style=\"font-size: {$font_size}px; color: $color;\">$word</a> ";
                 $tags++;
-                echo "tags =".$tags;
             }
         }
         

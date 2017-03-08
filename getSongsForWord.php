@@ -2,15 +2,15 @@
 include 'WordCloud.php';
 
 
-	$artist = $_GET['artist'];
-	$word = $_GET['word'];
-	$provider = new WordCloud;
-	$song_list = $provider->getSongsByWord($word, $artist);
+$artist = $_GET['artist'];
+$word = $_GET['word'];
+$provider = new WordCloud;
+$song_list = $provider->getSongsByWord($word, $artist);
 ?>
 
 <html>
 <head>
-<link rel="stylesheet" href="dist/css/songs-page.css">
+<link rel="stylesheet" href="./dist/css/songs-page.css">
 </head>
 <header>
 	<div id="header"><?php echo strtoupper($word)?></div>
