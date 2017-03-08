@@ -1,11 +1,11 @@
 <?php
-require 'phpconsole.php';
+
 include 'WordCloud.php';
 $artist = $_GET['artist'];
 $track_id =  $_GET['track_id'];
-$word = $_GET['word']
+$word = $_GET['word'];
 $provider = new WordCloud;
-$lyrics = $provider->getLyricsBySong($artist, $track_id, $word);
+$lyrics = $provider->getLyricsForSong($artist, $track_id, $word);
 $song = $provider->getSongByTrackID($track_id);
 $lyrics = preg_replace("/\w*?".preg_quote($word)."\w*/i", "<span class='highlight'>$0</span>", $lyrics);
 ?>
@@ -23,7 +23,7 @@ $lyrics = preg_replace("/\w*?".preg_quote($word)."\w*/i", "<span class='highligh
 		<?php echo $lyrics ?>
 	</div>
 	<div id="buttons">
-		<?php echo "<a href=\"specificWord.php?artist=$artist&word=$keyword\"><button id=\"songSelection\">Song Selection</button></a>" ?> 
+		<?php echo "<a href=\"php/getSongsForWord.php?artist={$artist}&word={$word}\"><button id=\"songSelection\">Song Selection</button></a>" ?> 
 		<a href="index.html"><button id="home">Word Cloud</button></a>
 	</div>
 </body>

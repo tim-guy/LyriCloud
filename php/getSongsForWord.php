@@ -1,10 +1,11 @@
 <?php
-require 'phpconsole.php';
-	include 'WordCloud.php';
+include 'WordCloud.php';
+
+
 	$artist = $_GET['artist'];
-	$word = $_GET['word']
+	$word = $_GET['word'];
 	$provider = new WordCloud;
-	$song_list = $provider->getSongsByWord($toSearch, $artist, 10);
+	$song_list = $provider->getSongsByWord($word, $artist, 10);
 	echo "ok";
 ?>
 
@@ -13,15 +14,17 @@ require 'phpconsole.php';
 <link rel="stylesheet" href="css/songs-page.css">
 </head>
 <header>
-	<div id="header"><?php echo strtoupper($toSearch)?></div>
+	<div id="header"><?php echo strtoupper($word)?></div>
 </header>
 <body>
 	<?php 
-	    $formattedWord = $toSearch;
-		for($x = 0; $x<count($songs); $x++){
-	        $track_id = $songs[$x];
+	    $formattedWord = $word;
+		for($x = 0; $x<count($song_list); $x++){
+	        $track_id = $song_list[$x];
+	        echo "track_id is ".$track_id;
 	        $song_title = $provider->getSongByTrackID($track_id);
-			echo "<div id=\"songLink\"><a href=\"lyricsPage.php?artist=$artist&track_id=$track_id&word=$word\">$song_title</a></div>";
+	        echo "song_title is ".$song_title;
+			echo "<div id=\"songLink\"><a href=\"getLyricsForSong.php?artist={$artist}&track_id={$track_id}&word={$word}\">$song_title</a></div>";
 		}
 	?>
 <a href="index.html"><button id="back">Back</button></a>
