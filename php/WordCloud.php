@@ -214,63 +214,30 @@ class WordCloud
                 $word = str_replace(")", "",$word);
                 $word = str_replace("(", "",$word);
                 $word = strtolower($word);
-                // echo nl2br($word."-----$$\n");
+                
                 if(count($word_to_trackid_array) == 0){
-                   // echo "count is zero";
-                    
                     $arr = array();
                     array_push($arr, $lyrics_list[$x][1]);
-                    echo nl2br("first track_id being pushed = ".$lyrics_list[$x][1]."\n");
                     array_push($word_to_trackid_array, $word);
                     $word_to_trackid_array[$word] = $arr;
-                    // echo "@@@@@@@@@@";
-
-                    // echo count($word_to_trackid_array[$word]);
                 }else{
-                    //echo "count is not zero";
                     if(array_key_exists($word, $word_to_trackid_array)){
-                       // echo nl2br($word." exists \n");
                         $temp = $word_to_trackid_array[$word]; //track_id array
-                        if(array_key_exists($lyrics_list[$x][1], $temp)){ //if the track already exists in the word's array
-                        //
+                        if(array_key_exists($lyrics_list[$x][1], $temp)){
+                             //if the track already exists in the word's array do nothing
                         }else{
                             array_push($temp, $lyrics_list[$x][1]);
-                            //echo nl2br("track_id being pushed = ".$lyrics_list[$x][1]."\n");
                         }
                     }else{
-                       // echo nl2br($word." doesn't exist \n");
                         $arr = array();
                         array_push($arr, $lyrics_list[$x][1]);
-                        //echo nl2br("track_id being pushed = ".$lyrics_list[$x][1]."\n");
                         $word_to_trackid_array[$word] = $arr;
-                        //array_push($word_to_trackid_array, $word => $arr);
                     }
-                    //echo count($word_to_trackid_array[$word]);
                 }
                 
             }
         }
 
-
-        // foreach ($word_to_trackid_array as $key => $value) {
-        //     echo nl2br($key." : \n");
-        //     for($x = 0; $x < count($value); $x++){
-        //         echo nl2br(">>>>".$value[$x]."\n");
-        //     }
-        // }
-           
-        // }
-        // echo count($word_to_trackid_array);
-        // echo $word_to_trackid_array[2];
-        // for($z = 0; $z < count($word_to_trackid_array); $z++){
-        //     echo $word_to_trackid_array[$z];
-        //     echo '\n';
-        // }
-        // if(array_key_exists($_word, $word_to_trackid_array)){
-        //     echo "EXISTSSSSSSSSSSSS";
-        // }
-        // $arrrr = $word_to_trackid_array[strtolower("white")];
-        // echo "###".$arrrr[0]."###";
         return $word_to_trackid_array[strtolower($_word)];
     }
     
