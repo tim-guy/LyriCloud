@@ -12,7 +12,7 @@ $lyrics = preg_replace("/\w*?".preg_quote($word)."\w*/i", "<span class='highligh
 
 <html>
 <head>
-	<link rel="stylesheet" href="../css/lyrics-page.css">
+	<link rel="stylesheet" href="./dist/css/lyrics-page.css">
 </head>
 <body>
 	<header>
