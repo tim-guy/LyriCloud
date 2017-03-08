@@ -83,7 +83,15 @@ final class WordCloudTest extends TestCase
 	}
 
 	public function test_WordCloudGenerator(){
+		$cloud = new WordCloud();
+		$name = "Rihanna";
+		$text = $cloud->getLyricsForArtistt($name);
+        $words = str_word_count($text, 1);
+        $word_frequency = $cloud->word_freq($words);
+		$word_c = $cloud->word_cloud($word_frequency, $name);
 
+		//assert
+		$this->assertEquals(WordCloudGenerator($Rihanna), $word_c);
 	}
 
 	public function test_WordCloudGenerator(){
