@@ -16,15 +16,38 @@ final class WordCloudTest extends TestCase
         $hello = " hello, world";
         $hello = explode(",", $hello);
 
+
+        $allWordsFiltered = "he, she, they, them, they, and, the, me";
+        $allWordsFiltered = explode(",", $allWordsFiltered);
+        $wordsEmpty = ",";
+        $wordsEmpty = explode(",", $wordsEmpty);
+
+        $noWordsFiltered = "tired, world";
+		$noWordsFiltered = explode(",", $noWordsFiltered);
+        $wordsFilled = "tired, world";
+        $wordsFilled = explode(",", $wordsFilled);
+        
+
         //Act
         $cloud = new WordCloud();
         $words = $cloud->filter_words($words);
+        $allWordsFiltered = $cloud->filter_words($allWordsFiltered);
+        $noWordsFiltered = $cloud->filter_words($noWordsFiltered);
+
 
         //Assert
         sort($words);
         sort($hello);
-        //check that the two arrays equal each other
+        
+        sort($allWordsFiltered);
+        sort($wordsEmpty);
+
+        sort($noWordsFiltered);
+        sort($wordsFilled);
+        
         $this->assertEquals($words, $hello);
+        $this->assertEquals($allWordsFiltered, $wordsEmpty);
+        $this->assertEquals($noWordsFiltered, $wordsFilled);
 	}
 
 	//tests if word frequency is counted correctly
@@ -33,9 +56,11 @@ final class WordCloudTest extends TestCase
 		$words = "lol,lol,lol,lmao,HA,ha,ha,ha,jk,jk";
         $words = explode(",", $words);
 
+
         //Act
         $cloud = new WordCloud();
         $frequency_list = $cloud->word_freq($words);
+
 
         //Assert
         //make sure each word is counted correctly
@@ -43,6 +68,8 @@ final class WordCloudTest extends TestCase
         $this->assertEquals($frequency_list["lmao"], 1);
         $this->assertEquals($frequency_list["ha"], 4);
         $this->assertEquals($frequency_list["jk"], 2);
+        //testing if word is not present, returns 0 count
+        $this->assertEquals($frequency_list["hello"], 0); 
 	}
 
 	//Word Cloud is an API so we just need to test if the API call worked or not, not the substance of the API
@@ -83,14 +110,63 @@ final class WordCloudTest extends TestCase
 	}
 
 	public function test_WordCloudGenerator(){
+		//arrange
+		$cloud = new WordCloud();
+		$name = "Rihanna";
 
+		//Act
+		$text = $cloud->getLyricsForArtistt($name);
+        $words = str_word_count($text, 1);
+        $word_frequency = $cloud->word_freq($words);
+		$word_c = $cloud->word_cloud($word_frequency, $name);
+
+		//Assert
+		$this->assertEquals(WordCloudGenerator($Rihanna), $word_c);
 	}
 
-	public function test_WordCloudGenerator(){
+	public function test_getLyricsForSong(){
+		//test not needed
+	}
+
+	public function test_getSongByTrackID(){
+		//test not needed
+	}
+
+	//tests for getSongsByWord
+	//1) If songs returned by word are accurate. Testing by having a sample word, and seeing if the array that is returned, has a random song that contains that word.
+	// 2) If word is empty, songs returned are empty
+	// 3) If word is not alphabetical, songs returned are empty
+	// 4) If word is not in song, songs returned are empty
+	public function test_getSongsByWord(){
+		//Arrange
+		$cloud = new WordCloud();
+		$randomSongFound = false;
+		$name = "Rihanna";
+		$word = "thief"
+		$emptyWord = "";
+		$noAlph= "&&&";
+		$noWordInSong = "askjdf"
 		
-	}
+		//Act
+		$word = $cloud->getSongsByWord($word,$name);
+		$emptyWord = $cloud->getSongsByWord($emptyWord, $name);
+		$noAlph = $cloud->getSongsByWord($noAlph, $name);
+		$noWordInSong = $cloud->getSongsByWord($noWordInSong, $name);
 
-	public function test_WordCloudGenerator(){
+		//testing to see if array returned from word, has a random song that contains the word.
+		//random song used is disturbia, which does have the word "thief"
+		for($y = 0; $y < count($word); $y++){ 
+			if ($word[$y] == "disturbia")
+				$randomSongFound = true;
+		}
+
+		//Assert
+		$this->assertEquals($randomSongFound, true);
+		$this->assertEquals(sizeof($emptyWord), 0);
+		$this->assertEquals(sizeof($noAlph), 0);
+		$this->assertEquals(sizeof($noWordInSong), 0);
+			
+
 		
 	}
 
