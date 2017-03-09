@@ -95,11 +95,11 @@ final class WordCloudTest extends TestCase
 	}
 
 	//this test should check if the API call was successful or not (the job of a remote API client), not what is in those calls
-	public function test_getLyricsForArtistt(){
+	public function test_getLyricsForArtist(){
 		//Arrange
 		$cloud = new WordCloud();
-		$lyrics_content = $cloud->getLyricsForArtistt("Rihanna");
-		$lyrics_no_content = $cloud->getLyricsForArtistt("asdfadsfadfgag");
+		$lyrics_content = $cloud->getLyricsForArtist("Rihanna");
+		$lyrics_no_content = $cloud->getLyricsForArtist("asdfadsfadfgag");
 
 		//Assert
 		//make sure lyrics ARE returned for an artist that exists
