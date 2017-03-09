@@ -11,20 +11,20 @@ final class WordCloudTest extends TestCase
 	//tests if words are correctly filtered out
 	public function test_filter_words(){
 		//(Arrange) All words should be filtered out except "Hello" and "World"
-		$words = "he, she, they, them, they, and, the, me, thislyricsisnotforcommercialuse, hello, world";
+		$words = "he,she,they,them,they,and,the,me,thislyricsisnotforcommercialuse,hello,world";
         $words = explode(",", $words);
-        $hello = " hello, world";
+        $hello = " hello,world";
         $hello = explode(",", $hello);
 
 
-        $allWordsFiltered = "he, she, they, them, they, and, the, me";
+        $allWordsFiltered = "he,she,they,them,they,and,the,me";
         $allWordsFiltered = explode(",", $allWordsFiltered);
         $wordsEmpty = ",";
         $wordsEmpty = explode(",", $wordsEmpty);
 
-        $noWordsFiltered = "tired, world";
+        $noWordsFiltered = "tired,world";
 		$noWordsFiltered = explode(",", $noWordsFiltered);
-        $wordsFilled = "tired, world";
+        $wordsFilled = "tired,world";
         $wordsFilled = explode(",", $wordsFilled);
         
 
@@ -80,7 +80,7 @@ final class WordCloudTest extends TestCase
         //Act
 		$cloud = new WordCloud();
 		$name = "Rihanna";
-        $text = $cloud->getLyricsForArtistt($name);
+        $text = $cloud->getLyricsForArtist($name);
         $words = str_word_count($text, 1);
         $word_frequency = $cloud->word_freq($words);
 		$word_c = $cloud->word_cloud($word_frequency, $name);
@@ -116,7 +116,7 @@ final class WordCloudTest extends TestCase
 		$name = "Rihanna";
 
 		//Act
-		$text = $cloud->getLyricsForArtistt($name);
+		$text = $cloud->getLyricsForArtist($name);
         $words = str_word_count($text, 1);
         $word_frequency = $cloud->word_freq($words);
 		$word_c = $cloud->word_cloud($word_frequency, $name);
