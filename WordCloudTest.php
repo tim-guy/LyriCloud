@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 final class WordCloudTest extends TestCase
 {
 	//tests if words are correctly filtered out
+	/**
+     * @covers WordCloud::filter_words
+     */
 	public function test_filter_words(){
 		//(Arrange) All words should be filtered out except "Hello" and "World"
 		$words = "he,she,they,them,they,and,the,me,thislyricsisnotforcommercialuse,hello,world";
@@ -51,6 +54,9 @@ final class WordCloudTest extends TestCase
 	}
 
 	//tests if word frequency is counted correctly
+	/**
+     * @covers WordCloud::word_freq
+     */
 	public function test_word_freq(){
 		//Arrange
 		$words = "lol,lol,lol,lmao,HA,ha,ha,ha,jk,jk";
@@ -73,6 +79,9 @@ final class WordCloudTest extends TestCase
 	}
 
 	//Word Cloud is an API so we just need to test if the API call worked or not, not the substance of the API
+	/**
+     * @covers WordCloud::word_cloud
+     */
 	public function test_word_cloud(){
 		//Arrange
 
@@ -95,6 +104,9 @@ final class WordCloudTest extends TestCase
 	}
 
 	//this test should check if the API call was successful or not (the job of a remote API client), not what is in those calls
+	/**
+     * @covers WordCloud::getLyricsForArtist
+     */
 	public function test_getLyricsForArtist(){
 		//Arrange
 		$cloud = new WordCloud();
@@ -109,6 +121,9 @@ final class WordCloudTest extends TestCase
 
 	}
 
+	/**
+     * @covers WordCloud::WordCloudGenerator
+     */
 	public function test_WordCloudGenerator(){
 
 		//Arrange
@@ -129,10 +144,16 @@ final class WordCloudTest extends TestCase
 		$this->assertLessThan($tags, 0);
 	}
 
+	/**
+     * @coversNothing
+     */
 	public function test_getLyricsForSong(){
 		//test not needed
 	}
-
+	
+	/**
+     * @coversNothing
+     */
 	public function test_getSongByTrackID(){
 		//test not needed
 	}
@@ -142,6 +163,9 @@ final class WordCloudTest extends TestCase
 	// 2) If word is empty, songs returned are empty
 	// 3) If word is not alphabetical, songs returned are empty
 	// 4) If word is not in song, songs returned are empty
+	/**
+     * @covers WordCloud::getSongsByWord
+     */
 	public function test_getSongsByWord(){
 		//Arrange
 		$cloud = new WordCloud();
