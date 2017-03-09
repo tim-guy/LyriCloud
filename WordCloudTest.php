@@ -143,10 +143,10 @@ final class WordCloudTest extends TestCase
 		$cloud = new WordCloud();
 		$randomSongFound = false;
 		$name = "Rihanna";
-		$word = "thief"
+		$word = "thief";
 		$emptyWord = "";
 		$noAlph= "&&&";
-		$noWordInSong = "askjdf"
+		$noWordInSong = "askjdf";
 		
 		//Act
 		$word = $cloud->getSongsByWord($word,$name);
