@@ -4,11 +4,10 @@ class WordCloud
 
 
 {
-    // $word_to_trackid_array = array(); // word -> array(track_ids)
-
+    
     /* Builds an array of words with all stop words filtered out. (case-insensitive) */
     function filter_words($words) {
-        $bad_words = "'La', 'he', 'she', 'they', 'them', 'they', 'and', 'the', 'I', 'me', 'thislyricsisnotforcommercialuse', '*******', 'This', 'Lyrics', 'is', 'NOT', 'for', 'Commercial', 'use'";
+        $bad_words = "La,he,she,they,them,they,and,the,I,me,thislyricsisnotforcommercialuse,*******,This,Lyrics,is,NOT,for,Commercial,use";
         $bad_words = explode(",", $bad_words);
         foreach ($words as $pos => $word) {
             if (!in_array(strtolower($word), $bad_words, TRUE)) {
@@ -58,9 +57,8 @@ class WordCloud
             }
             
             if ($font_size >= $fmin) {
-                $cloud .= "<a href=\"php/getSongsForWord.php?artist={$name}&word={$word}\" style=\"font-size: {$font_size}px; color: $color;\">$word</a> ";
+                $cloud .= "<a href=\"getSongsForWord.php?artist={$name}&word={$word}\" style=\"font-size: {$font_size}px; color: $color;\">$word</a> ";
                 $tags++;
-                echo "tags =".$tags;
             }
         }
         
@@ -69,52 +67,9 @@ class WordCloud
         return array($cloud, $tags);  
     }
 
-    // function getLyricsForArtistt($artist) {
-    //     $urlBase = 'http://api.musixmatch.com/ws/1.1/';
-    //     $apiKey = 'c68c8e440ab040696a20c467eb42ddc2';
-    //     // first get track ids
-    //     $query_type = "track.search";
-    //     $artist_name = "?q_artist=" . $artist;
-    //     $query = $urlBase . $query_type . $artist_name . '&apikey=' . $apiKey;
-    //     $response = file_get_contents($query);
-    //     $response = json_decode($response, true);
-    //     $track_list = $response["message"]["body"]["track_list"];
-    //     $track_ids = array( );
-    //     foreach ($track_list as $track) {
-    //         array_push($track_ids, $track["track"]["track_id"]);
-    //     }
+    
 
-    //     // second get all the long strings of lyrics for each track
-    //     $query_type = "track.lyrics.get";
-    //     $lyrics_list = array( );
-    //     foreach ($track_ids as $id_key => $id) {
-    //         $track_id = "?track_id=" . $id;
-    //         $query = $urlBase . $query_type . $track_id . '&apikey=' . $apiKey;
-    //         $response = file_get_contents($query);
-    //         $response = json_decode($response, true);
-    //         array_push($lyrics_list, $response["message"]["body"]["lyrics"]["lyrics_body"], $id); //2-D array storing lyrics + track_id
-    //     }
-
-    //     // turn these long lists of lyrics into a single array that is split by a space delimiter
-        
-    //     $lyrics = "";
-    //     foreach ($lyrics_list as $string_id => $lyric_string) { 
-    //         //$temp_track_id //stores track id from $lyrics_list 
-    //         $lyric_array = explode(" ", $lyric_string);
-    //         foreach ($lyric_array as $word_id => $word) {
-    //             //for each word  see if already exists in $word_to_trackid_array
-    //                 //if yes check if track_id exists in the array inside the array
-    //                     //if yes do nothing
-    //                     //if no, push track_id
-    //                 //if no, add an array and add the track_id to this array and then push the array as the array for this word
-    //             $lyrics = $lyrics.$word;
-    //         }
-    //     }
-        
-    //     return $lyrics;
-    // }
-
-    function getLyricsForArtistt($artist) {
+    function getLyricsForArtist($artist) {
         $urlBase = 'http://api.musixmatch.com/ws/1.1/';
         $apiKey = 'c68c8e440ab040696a20c467eb42ddc2';
         // first get track ids
@@ -144,7 +99,6 @@ class WordCloud
         foreach ($lyrics_list as $string_id => $lyric_string) {
             $lyric_array = explode(" ", $lyric_string);
             foreach ($lyric_array as $word_id => $word) {
-                //array_push($lyrics, $word);
                 $lyrics = $lyrics.$word;
             }
         }
@@ -155,7 +109,7 @@ class WordCloud
     function WordCloudGenerator($artist_name){
         
         $provider = new WordCloud;
-        $text = $provider->getLyricsForArtistt($artist_name);
+        $text = $provider->getLyricsForArtist($artist_name);
         $words = str_word_count($text, 1); /* Generate list of words */
         $word_count = count($words); /* Word count */
         $unique_words = count( array_unique($words) ); /* Unique word count */
@@ -168,10 +122,10 @@ class WordCloud
         return $word_cloud;
     }
 
-    function getSongsByWord($_word, $_artist, $_upper_limit){
+    function getSongsByWord($_word, $_artist){
         $urlBase = 'http://api.musixmatch.com/ws/1.1/';
         $apiKey = 'c68c8e440ab040696a20c467eb42ddc2';
-        $word_to_trackid_array = array();
+        $word_to_trackid_array = array(); // this array maps each word to the array of track_ids that contain that word 
         // first get track ids
         $query_type = "track.search";
         $artist_name = "?q_artist=" . $_artist;
@@ -193,89 +147,47 @@ class WordCloud
             $response = file_get_contents($query);
             $response = json_decode($response, true);
             $response_lyrics = $response["message"]["body"]["lyrics"]["lyrics_body"];
-            //array_push();
-            $temp_2D_arr = array($response_lyrics, $id);
-            array_push($lyrics_list, $temp_2D_arr);
-            // array_push($lyrics_list[$response_lyrics], $id); //2-D array storing lyrics + track_id
+            $temp_2D_arr = array($response_lyrics, $id); //array storing lyrics at 0 and track_id at 1
+            array_push($lyrics_list, $temp_2D_arr); // $lyrics_list stores the 2 element array we created above
         }
-
-        // for($r = 0; $r < count($lyrics_list); $r++) {
-
-        //     echo nl2br($lyrics_list[$r][1]."\n");
-        //     echo nl2br($lyrics_list[$r][0]."\n \n \n \n");
-        // }
        
         for($x = 0; $x < count($lyrics_list); $x++){ //for each entry in the array $lyrics_list, "lyrics"->"track_id"
-            $lyrics_array = explode(" ", $lyrics_list[$x][0]); //explode the lyris into an array
+            $lyrics_array = explode(" ", $lyrics_list[$x][0]); //explode the lyrics into an array
             for($y = 0; $y < count($lyrics_array); $y++){ //for each word in the array
 
-                $word = $lyrics_array[$y];
-                $word = str_replace(",", "",$word);
-                $word = str_replace(")", "",$word);
-                $word = str_replace("(", "",$word);
-                $word = strtolower($word);
-                // echo nl2br($word."-----$$\n");
-                if(count($word_to_trackid_array) == 0){
-                   // echo "count is zero";
-                    
-                    $arr = array();
-                    array_push($arr, $lyrics_list[$x][1]);
-                    echo nl2br("first track_id being pushed = ".$lyrics_list[$x][1]."\n");
-                    array_push($word_to_trackid_array, $word);
-                    $word_to_trackid_array[$word] = $arr;
-                    // echo "@@@@@@@@@@";
+                $word = $lyrics_array[$y]; //get the word
+                $word = str_replace(",", "",$word); //remove commas
+                $word = str_replace(")", "",$word); //remove bracket
+                $word = str_replace("(", "",$word); //remove bracket
+                $word = strtolower($word); //convert to lower case
 
-                    // echo count($word_to_trackid_array[$word]);
-                }else{
-                    //echo "count is not zero";
-                    if(array_key_exists($word, $word_to_trackid_array)){
-                       // echo nl2br($word." exists \n");
-                        $temp = $word_to_trackid_array[$word]; //track_id array
-                        if(array_key_exists($lyrics_list[$x][1], $temp)){ //if the track already exists in the word's array
-                        //
-                        }else{
-                            array_push($temp, $lyrics_list[$x][1]);
-                            //echo nl2br("track_id being pushed = ".$lyrics_list[$x][1]."\n");
+                                
+                if(count($word_to_trackid_array) == 0){ // if the $word_to_trackid_array is empty
+                    $arr = array(); //create an array for the track_ids 
+                    array_push($arr, $lyrics_list[$x][1]); //push the track_id ($lyrics_list[$x][1]) into this array
+                    $word_to_trackid_array[$word] = $arr; //the array that we created earlier is the value associated with the key $word
+                }else{ //if the $word_to_trackid_array is not empty
+                    if(array_key_exists($word, $word_to_trackid_array)){ //if the word already exists as a key
+                        $temp = $word_to_trackid_array[$word]; //obtain the word's track_id array
+                        if(array_key_exists($lyrics_list[$x][1], $temp)){ // if the track_id already exists in the track_id array 
+                             //do nothing
+                        }else{ // if the track_id doesn't already exists in the track_id array 
+                            array_push($temp, $lyrics_list[$x][1]); //push the track_id into the track_id array
                         }
-                    }else{
-                       // echo nl2br($word." doesn't exist \n");
-                        $arr = array();
-                        array_push($arr, $lyrics_list[$x][1]);
-                        //echo nl2br("track_id being pushed = ".$lyrics_list[$x][1]."\n");
-                        $word_to_trackid_array[$word] = $arr;
-                        //array_push($word_to_trackid_array, $word => $arr);
+                    }else{//if the word doesn't already exists as a key
+                        $arr = array(); //create an array for the track_ids 
+                        array_push($arr, $lyrics_list[$x][1]); //push the track_id ($lyrics_list[$x][1]) into this array
+                        $word_to_trackid_array[$word] = $arr; //the array that we created earlier is the value associated with the key $word
                     }
-                    //echo count($word_to_trackid_array[$word]);
                 }
                 
             }
         }
 
-
-        // foreach ($word_to_trackid_array as $key => $value) {
-        //     echo nl2br($key." : \n");
-        //     for($x = 0; $x < count($value); $x++){
-        //         echo nl2br(">>>>".$value[$x]."\n");
-        //     }
-        // }
-           
-        // }
-        // echo count($word_to_trackid_array);
-        // echo $word_to_trackid_array[2];
-        // for($z = 0; $z < count($word_to_trackid_array); $z++){
-        //     echo $word_to_trackid_array[$z];
-        //     echo '\n';
-        // }
-        // if(array_key_exists($_word, $word_to_trackid_array)){
-        //     echo "EXISTSSSSSSSSSSSS";
-        // }
-        // $arrrr = $word_to_trackid_array[strtolower("white")];
-        // echo "###".$arrrr[0]."###";
-        return $word_to_trackid_array[strtolower($_word)];
+        return $word_to_trackid_array[strtolower($_word)]; //return the track_id
     }
     
     function getLyricsForSong($_artist, $_track_id, $_word) {
-        // first get track ids
         $urlBase = 'http://api.musixmatch.com/ws/1.1/';
         $apiKey = 'c68c8e440ab040696a20c467eb42ddc2';
         $query_type = "track.lyrics.get";

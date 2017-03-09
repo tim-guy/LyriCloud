@@ -1,21 +1,49 @@
 #header {
-	font-size: 100px;
+	font-size: 80px;
 	text-align: center;
 	font-family: futura;
 	font-style: italic;
-	padding-bottom: 180px;
+	padding-bottom: 20px;
 }
 
 body {
-  padding-top: 15px;
-  background: silver;
-  font-family: futura;
+  	padding-top: 15px;
+  	background: silver;
+  	font-family: futura;
+}
+
+#cloudPane {
+	text-align: center;
+	min-height: 300px;
+	margin-bottom: 10px;
+}
+
+#cloudBox {
+	width: 400px;
+	margin: 0 auto;
+}
+
+#generating {
+	padding-top: 100px;
+}
+
+#innerCloud {
+	background: white;
+	padding: 10px;
 }
 
 #inputPane {
-	width: 55%;
-	margin:0 auto;
+	width: 65%;
+	margin: 0 auto;
 }
+
+#artist_title {
+	padding-bottom: 15px;
+  	background: silver;
+  	font-family: futura;
+	font-size: 50px;
+}
+
 
 #inputBox {
 	float: left;

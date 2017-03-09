@@ -18,7 +18,7 @@
   <div id="cloudPane">
     <div id="cloudBox"></div>
   </div>
-  <div id ="outerInputPane" style ="width: 100%">
+  
     <div id ="inputPane">
       <input id="inputBox" type="text" name="text" placeholder="Input Text Here">
       <div id="buttons">
@@ -50,7 +50,7 @@
         <button id="addMoreButton" class="btn btn-default" >Add More To Cloud</button>
       </div>
     </div>
-  </div>
+  
 </body>
 </html>
 
@@ -61,7 +61,7 @@
           $('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
         },
         type: "post",
-        url: "php/getWordCloud.php",
+        url: "getWordCloud.php",
         data: {
           prev: '',
           name: $('#inputBox').val()
@@ -69,7 +69,7 @@
         success: function(msg){
           $('#cloudBox').html(msg);
           $('#addMoreButton').css("visibility", "visible");
-	         $('#shareToFacebookButton').css("visibility", "visible");
+           $('#shareToFacebookButton').css("visibility", "visible");
         }
     });
   });

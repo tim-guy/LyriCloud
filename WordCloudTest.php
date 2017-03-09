@@ -110,6 +110,7 @@ final class WordCloudTest extends TestCase
 	}
 
 	public function test_WordCloudGenerator(){
+
 		//arrange
 		$cloud = new WordCloud();
 		$name = "Rihanna";
